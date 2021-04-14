@@ -1,0 +1,334 @@
+{% extends 'teacher/teacher_base.html'%}
+{% load static%}
+{% load template_filters %}
+{% block content%}
+<head>
+    <script type="text/javascript">
+          $('.counter-count').each(function () {
+        $(this).prop('Counter',0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 5000,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(Math.round(now));
+            }
+        });
+    });
+</script>
+</head>
+ <div class="page-breadcrumb">
+    <div class="row align-items-center d-md-flex">
+        <div class="col-10">
+            <h4 class="page-title">Defaulters</h4>
+            <div class="d-flex align-items-center">
+            	<nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Library</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+
+        <div class="col-2">
+                            <div class="ml-auto text-right upgrade-btn">
+                                        <div class="dl">
+                                            <form method='post' action="{% url 'Teacher:calculate'%}">
+                                                {% csrf_token %}
+                                                
+                                            <button type="submit" class="btn btn-danger">Create Report</button>
+                                        </form>
+                                            
+                                        </div>
+                                   
+                        </div>
+                    </div>
+    </div>
+</div>
+
+{% for message in messages %}
+
+                                                <div class="alert alert-{{message.tags}}">
+                                                    <a class="close" href="#" data-dismiss="alert">×</a>
+
+                                                    {{ message }}
+
+                                                </div>
+                                        {% endfor %}
+<div class="row">
+    <div class="col-12">
+	    <nav>
+	        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+	            <a class="nav-item nav-link active text-dark" id="nav-summary-tab" data-toggle="tab" href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="true">Summary</a>
+                <a class="nav-item nav-link text-dark" id="nav-statistics-tab" data-toggle="tab" href="#nav-statistics" role="tab" aria-controls="nav-statistics" aria-selected="false">Attendence View</a>
+	            <a class="nav-item nav-link text-dark" id="nav-graph-tab" data-toggle="tab" href="#nav-graph" role="tab" aria-controls="nav-graph" aria-selected="false">Defaulter View</a>
+	            
+	        </div>
+	    </nav>
+	    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+	    	<div class="tab-pane fade" id="nav-graph" role="tabpanel" aria-labelledby="nav-graph-tab">
+                <div class="card" style="text-align: center;">
+                    <div class="card-body">
+                <div class="table-responsive m-t-20">
+                                <table class="table table-bordered table-responsive-lg">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Lecs/Labs</th>
+                                            <th scope="col">Defaulters</th>
+                                            <th scope="col">Critical Defaulters</th>
+                                            
+                                           
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for i in list_lec %}
+                                        <tr>
+                                            <th scope="row">{{i}} Lec</th>
+                                            <td>{% for student in overall%}
+
+                                               {% if overall|get_item:student|get_item:"lec_percent"|get_item:i < 75%}
+                                                {{student.Student_first_name}} {{student.Student_last_name}},
+                                                {% endif %}
+
+                                                {% endfor %}
+                                            </td>
+                                            <td>
+                                                {% for student in overall%}
+
+                                               {% if overall|get_item:student|get_item:"lec_percent"|get_item:i < 65%}
+                                                {{student.Student_first_name}} {{student.Student_last_name}},
+                                                {% endif %}
+                                                {% endfor %}
+
+                                            </td>
+                                            
+                                        </tr>
+                                        {% endfor %}
+                                        {% for i in list_lab%}
+                                        <tr>
+                                            <th>{{i}} Lab</th>
+                                            <td>{% for student in overall%}
+
+                                               {% if overall|get_item:student|get_item:"lab_percent"|get_item:i < 75%}
+                                                {{student.Student_first_name}} {{student.Student_last_name}},
+                                                {% endif %}
+
+                                                {% endfor %}
+                                            </td>
+                                            <td>
+                                                {% for student in overall%}
+
+                                               {% if overall|get_item:student|get_item:"lab_percent"|get_item:i < 65%}
+                                                {{student.Student_first_name}} {{student.Student_last_name}},
+                                                {% endif %}
+                                                {% endfor %}
+
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        <tr>
+                                            <th>Overall Defaulters</th>
+                                            <td colspan="2"> {% for student in overall %}
+                                                {% if overall|get_item:student|get_item:"total_percent" < 65%}
+                                                {{student.Student_first_name}} {{student.Student_last_name}},
+                                                {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                            
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+	    	</div>
+
+	    	<div class="tab-pane fade show active" id="nav-summary" role="tabpanel" aria-labelledby="nav-summary-tab">
+	    				<div class="row" style="border-bottom: 1px solid">
+                            <div class="col-lg-4">
+                                <a class="text-dark" href="#">
+                                    <div class="card" style="text-align: center;">
+                                        <div class="comment-widgets scrollable">
+                                            <div class="d-flex flex-row comment-row m-t-0">
+                                                <div class="card-body">
+                                                    <i class="mdi mdi-account-check mdi-36px " aria-expanded="false"></i><h4 class="card-title">Total Students : <span class="counter-count">{{total_students}}</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <a class="text-dark" href="#">
+                                    <div class="card" style="text-align: center;">
+                                        <div class="comment-widgets scrollable">
+                                            <div class="d-flex flex-row comment-row m-t-0">
+                                                <div class="card-body">
+                                                    <i class="mdi mdi-account-star mdi-36px " aria-expanded="false"></i><h4 class="card-title">Critical Defaulters :  <span class="counter-count">{{critical}}</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>     
+
+
+
+
+                            <div class="col-lg-4">
+                                <a class="text-dark" href="#">
+                                    <div class="card" style="text-align: center;">
+                                        <div class="comment-widgets scrollable">
+                                            <div class="d-flex flex-row comment-row m-t-0">
+                                                <div class="card-body">
+                                                    <i class="mdi mdi-account-star mdi-36px " aria-expanded="false"></i><h4 class="card-title">Defaulters : <span class="counter-count">{{defaulter}}</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>     
+
+
+                        </div>
+                        <br>
+                        <h4>Total No. of lecs: </h4>
+                        <div class="row" style="border-bottom: 1px solid">
+                            <div class="col-12">
+                            <div class="card" style="text-align: center;">
+                                <div class="card-body">
+                                    <div class="table-responsive m-t-20">
+                                        <table class="table table-bordered table-responsive-lg">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Lecs/Labs</th>
+                                                    <th scope="col">Defaulters</th>
+                                                   
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for i in list_lec %}
+                                                <tr>
+                                                    <td>{{i}} Lec</td>
+                                                    <td> <span class="counter-count">{{ total_lec_dict|get_item:i}}</span></td>
+                                                </tr>
+
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                            
+                        <br>
+                        <h4>Total no.of labs: </h4><br>
+                         <div class="row">
+                        {% for ba in batch %}
+                    
+                       
+                            <div class="col-4">
+                                <div class="card" style="text-align: center;">
+                                    <div class="card-body">
+                                        <div class="table-responsive m-t-20">
+                                            <table class="table table-bordered table-responsive-lg">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Batch {{ba}} Labs</th>
+                                                        <th scope="col">Defaulters</th>
+                                                       
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for i in list_lab %}
+                                                    <tr>
+                                                        <td>{{i}} Lab</td>
+                                                        <td><span class="counter-count">{{ total_lab_dict|get_item:ba|get_item:i }} </span></td>
+                                                    </tr>
+
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    {% endfor %}
+                </div>
+                    
+	    	</div>
+
+	    	<div class="tab-pane fade" id="nav-statistics" role="tabpanel" aria-labelledby="nav-statistics-tab">
+                <div class="card" style="text-align: center;">
+                    <div class="card-body">
+                <div class="table-responsive m-t-20">
+                                <table class="table table-bordered table-responsive-lg">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            {% for i in list_lec %}
+                                            <th scope="col">{{i}} Lec</th>
+                                            {% endfor %}
+                                            {% for i in list_lab %}
+                                            <th scope="col">{{i}} Lab</th>
+                                            {% endfor %}
+                                            <th>Total Percent</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for student in overall %}
+                                        <tr>
+                                            <th scope="row">{{student.Student_first_name}} {{student.Student_last_name}}</th>
+                                            {% for i in list_lec%}
+                                            {% if overall|get_item:student|get_item:"lec_percent"|get_item:i < 75 and overall|get_item:student|get_item:"lec_percent"|get_item:i > 65 %}
+                                            <td style="background-color: #ff6464">{{ overall|get_item:student|get_item:"lec_percent"|get_item:i }}%</td>
+                                            {% elif overall|get_item:student|get_item:"lec_percent"|get_item:i > 75 %}
+                                            <td style="background-color: white">{{ overall|get_item:student|get_item:"lec_percent"|get_item:i }}%</td>
+                                            {% elif overall|get_item:student|get_item:"lec_percent"|get_item:i < 65 %}
+                                            <td style="background-color: #ff3f3f">{{ overall|get_item:student|get_item:"lec_percent"|get_item:i }}%</td>
+
+                                            {% endif%}
+                                            {% endfor %}
+                                            {% for i in list_lab%}
+                                            {% if overall|get_item:student|get_item:"lab_percent"|get_item:i < 75 and overall|get_item:student|get_item:"lab_percent"|get_item:i > 65 %}
+                                            <td style="background-color: #ff6464">{{ overall|get_item:student|get_item:"lab_percent"|get_item:i }}%</td>
+                                            {% elif overall|get_item:student|get_item:"lab_percent"|get_item:i > 75 %}
+                                            <td style="background-color: white">{{ overall|get_item:student|get_item:"lab_percent"|get_item:i }}%</td>
+                                            {% elif overall|get_item:student|get_item:"lab_percent"|get_item:i < 65 %}
+                                            <td style="background-color: #ff3f3f">{{ overall|get_item:student|get_item:"lab_percent"|get_item:i }}%</td>
+
+                                            {% endif%}
+                                            {% endfor %}
+                                            {% if overall|get_item:student|get_item:"total_percent" < 75 and overall|get_item:student|get_item:"total_percent" > 65 %}
+                                            <td style="background-color: #ff6464">{{ overall|get_item:student|get_item:"total_percent" }}%</td>
+                                            {% elif overall|get_item:student|get_item:"total_percent" > 75 %}
+                                            <td style="background-color: white">{{ overall|get_item:student|get_item:"total_percent" }}%</td>
+                                            {% elif overall|get_item:student|get_item:"total_percent" < 75 %}
+                                            <td style="background-color: #ff3f3f">{{ overall|get_item:student|get_item:"total_percent" }}%</td>
+                                            {% endif%}
+                                            
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+	    	</div>
+	    </div>
+
+
+    </div>
+</div>
+
+
+{% endblock%}

@@ -1,0 +1,486 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'student/assets/images/favicon.png'%}">
+    <title>Attendence Management System</title>
+    <!-- Custom CSS -->
+    <link href="{% static 'student/assets/libs/chartist/dist/chartist.min.css'%}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'student/dist/css/style.min.css'%}" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+
+<meta name="google-signin-client_id" content="983792930933-nn7cgnmca318rhk0uhu7l5eioojikprv.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+<style type="text/css">
+    ::placeholder{
+        color:black;
+    }
+    .inbox .inbox-menu ul {
+    margin-top: 30px;
+    padding: 0;
+    list-style: none
+}
+
+.inbox .inbox-menu ul li {
+    height: 30px;
+    padding: 5px 15px;
+    position: relative
+}
+
+.inbox .inbox-menu ul li:hover,
+.inbox .inbox-menu ul li.active {
+    background: #e4e5e6
+}
+
+.inbox .inbox-menu ul li.title {
+    margin: 20px 0 -5px 0;
+    text-transform: uppercase;
+    font-size: 10px;
+    color: #d1d4d7
+}
+
+.inbox .inbox-menu ul li.title:hover {
+    background: 0 0
+}
+
+.inbox .inbox-menu ul li a {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    color: #3d3f42
+}
+
+.inbox .inbox-menu ul li a i {
+    margin-right: 10px
+}
+
+.inbox .inbox-menu ul li a .label {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    display: block;
+    min-width: 14px;
+    height: 14px;
+    padding: 2px
+}
+
+.inbox ul.messages-list {
+    list-style: none;
+    margin: 15px -15px 0 -15px;
+    padding: 15px 15px 0 15px;
+    border-top: 1px solid #d1d4d7
+}
+
+.inbox ul.messages-list li {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding: 10px
+}
+
+.inbox ul.messages-list li a {
+    color: #3d3f42
+}
+
+.inbox ul.messages-list li a:hover {
+    text-decoration: none
+}
+
+.inbox ul.messages-list li.unread .header,
+.inbox ul.messages-list li.unread .title {
+    font-weight: 700
+}
+
+.inbox ul.messages-list li:hover {
+    background: #e4e5e6;
+    border: 1px solid #d1d4d7;
+    padding: 9px
+}
+
+.inbox ul.messages-list li:hover .action {
+    color: #d1d4d7
+}
+
+.inbox ul.messages-list li .header {
+    margin: 0 0 5px 0
+}
+
+.inbox ul.messages-list li .header .from {
+    width: 49.9%;
+    white-space: nowrap;
+    overflow: hidden!important;
+    text-overflow: ellipsis
+}
+
+.inbox ul.messages-list li .header .date {
+    width: 50%;
+    text-align: right;
+    float: right
+}
+
+.inbox ul.messages-list li .title {
+    margin: 0 0 5px 0;
+    white-space: nowrap;
+    overflow: hidden!important;
+    text-overflow: ellipsis
+}
+
+.inbox ul.messages-list li .description {
+    font-size: 12px;
+    padding-left: 29px
+}
+
+.inbox ul.messages-list li .action {
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+    margin-right: 10px;
+    color: #d1d4d7
+}
+
+.inbox ul.messages-list li .action .fa-check-square-o {
+    margin: 0 -1px 0 1px
+}
+
+.inbox ul.messages-list li .action .fa-square {
+    float: left;
+    margin-top: -16px;
+    margin-left: 4px;
+    font-size: 11px;
+    color: #fff
+}
+
+.inbox ul.messages-list li .action .fa-star.bg {
+    float: left;
+    margin-top: -16px;
+    margin-left: 3px;
+    font-size: 12px;
+    color: #fff
+}
+
+.inbox .message .message-title {
+    margin-top: 30px;
+    padding-top: 10px;
+    font-weight: 700;
+    font-size: 14px
+}
+
+.inbox .message .header {
+    margin: 20px 0 30px 0;
+    padding: 10px 0 10px 0;
+    border-top: 1px solid #d1d4d7;
+    border-bottom: 1px solid #d1d4d7
+}
+
+.inbox .message .header .avatar {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    height: 34px;
+    width: 34px;
+    float: left;
+    margin-right: 10px
+}
+
+.inbox .message .header i {
+    margin-top: 1px
+}
+
+.inbox .message .header .from {
+    display: inline-block;
+    width: 50%;
+    font-size: 12px;
+    margin-top: -2px;
+    color: #d1d4d7
+}
+
+.inbox .message .header .from span {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #3d3f42
+}
+
+.inbox .message .header .date {
+    display: inline-block;
+    width: 29%;
+    text-align: right;
+    float: right;
+    font-size: 12px;
+    margin-top: 18px
+}
+
+.inbox .message .attachments {
+    border-top: 3px solid #e4e5e6;
+    border-bottom: 3px solid #e4e5e6;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    font-size: 12px
+}
+
+.inbox .message .attachments ul {
+    list-style: none;
+    margin: 0 0 0 -40px
+}
+
+.inbox .message .attachments ul li {
+    margin: 10px 0
+}
+
+.inbox .message .attachments ul li .label {
+    padding: 2px 4px
+}
+
+.inbox .message .attachments ul li span.quickMenu {
+    float: right;
+    text-align: right
+}
+
+.inbox .message .attachments ul li span.quickMenu .fa {
+    padding: 5px 0 5px 25px;
+    font-size: 14px;
+    margin: -2px 0 0 5px;
+    color: #d1d4d7
+}
+
+.inbox .contacts ul {
+    margin-top: 30px;
+    padding: 0;
+    list-style: none
+}
+
+.inbox .contacts ul li {
+    height: 30px;
+    padding: 5px 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis!important;
+    position: relative;
+    cursor: pointer
+}
+
+.inbox .contacts ul li .label {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    padding: 0;
+    margin: 0 5px 2px 0
+}
+
+.inbox .contacts ul li:hover {
+    background: #e4e5e6
+}
+
+</style>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar" data-navbarbg="skin5">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                <div class="navbar-header" data-logobg="skin5">
+                    <!-- ============================================================== -->
+                    <!-- Logo -->
+                    <!-- ============================================================== -->
+                    <a class="navbar-brand" href="{% url 'Teacher:Teacher_view_dashboard'%}">
+                        <!-- Logo icon -->
+                        <b class="logo-icon">
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="{% static 'student/assets/images/dm12.png'%}" alt="homepage" class="dark-logo" />
+                            <!-- Light Logo icon -->
+                            <img src="{% static 'student/assets/images/dm12.png'%}" alt="homepage" class="light-logo" />
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        
+                    </a>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <!-- This is for the sidebar toggle which is visible on mobile only -->
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav float-left mr-auto">
+                        <!-- ============================================================== -->
+                        <!-- Search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item search-box"> <a class="nav-link waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
+                            <form class="app-search position-absolute">
+                                <input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
+                            </form>
+                        </li>
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- Right side toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav float-right">
+                        <!-- ============================================================== -->
+                        <!-- User profile and search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{user.profile.image.url}}" alt="user" class="rounded-circle" width="31" height="31"></a>
+                            <div class="dropdown-menu dropdown-menu-right user-dd animated">
+                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
+                                <a class="dropdown-item" href="{% url 'Authenticate:logout'%}"><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
+                                
+                            </div>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- User profile and search -->
+                        <!-- ============================================================== -->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar" data-sidebarbg="skin6">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <!-- User Profile-->
+                        <li>
+                            <!-- User Profile-->
+                            <div class="user-profile d-flex no-block dropdown m-t-20">
+                                <div class="user-pic"><img src="{{user.profile.image.url}}" alt="users" class="rounded-circle" width="40" height="40" /></div>
+                                <div class="user-content hide-menu m-l-10">
+                                    <a href="javascript:void(0)" class="" id="Userdd" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h5 class="m-b-0 user-name font-medium">{{user.first_name}} {{user.last_name}} <i class="fa fa-angle-down"></i></h5>
+                                        <span class="op-5 user-email">{{user.username}}</span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Userdd">
+                                        <a class="dropdown-item" href="{% url 'Authenticate:profile_teacher'%}"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
+                                        
+                                        
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{% url 'Authenticate:Settings'%}"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{% url 'Authenticate:logout'%}"><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End User Profile-->
+                        </li>
+                        <!-- User Profile-->
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'Teacher:Teacher_view_dashboard'%}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
+                        
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'Teacher:Time_table'%}" aria-expanded="false"><i class="mdi mdi-email"></i><span class="hide-menu">Time Table</span></a></li>
+                        
+                        
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'Authenticate:profile_teacher'%}" aria-expanded="false"><i class="mdi mdi-account-network"></i><span class="hide-menu">Profile</span></a></li>
+                        
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'About:About_view_teacher'%}" aria-expanded="false"><i class="mdi mdi-book-open-page-variant"></i><span class="hide-menu">About</span></a></li>
+                        
+                    </ul>
+                    
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <div class="container-fluid">
+            {% block content%}
+
+            {% endblock%}
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center">
+                All Rights Reserved by D.M. Designed and Developed by D.M.
+            </footer>
+            
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{% static 'student/assets/libs/jquery/dist/jquery.min.js'%}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static 'student/assets/libs/popper.js/dist/umd/popper.min.js'%}"></script>
+    <script src="{% static 'student/assets/libs/bootstrap/dist/js/bootstrap.min.js'%}"></script>
+    <script src="{% static 'student/dist/js/app-style-switcher.js'%}"></script>
+    <!--Wave Effects -->
+    <script src="{% static 'student/dist/js/waves.js'%}"></script>
+    <!--Menu sidebar -->
+    <script src="{% static 'student/dist/js/sidebarmenu.js'%}"></script>
+    <!--Custom JavaScript -->
+    <script src="{% static 'student/dist/js/custom.js'%}"></script>
+    <!--This page JavaScript -->
+    <!--chartis chart-->
+    <script src="{% static 'student/assets/libs/chartist/dist/chartist.min.js'%}"></script>
+    <script src="{% static 'student/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js'%}"></script>
+    <script src="{% static 'student/dist/js/pages/dashboards/dashboard1.js'%}"></script>
+</body>
+
+</html>

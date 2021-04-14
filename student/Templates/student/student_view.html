@@ -1,0 +1,255 @@
+{% extends 'student/student_base.html'%}
+{% load static%}
+{% block content%}
+
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="page-breadcrumb">
+                <div class="row align-items-center d-md-flex">
+                    <div class="col-10">
+                        <h4 class="page-title">Dashboard</h4>
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Library</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+<div class="row">
+                    <!-- column -->
+                <div class="col-lg-6">
+                    <a class="text-dark" href="{% url 'attendence:attendence_student'%}">
+                    <div class="card">
+                        <div class="comment-widgets scrollable">
+                            <div class="d-flex flex-row comment-row m-t-0">
+                                <div class="card-body">
+                                    <i class="mdi mdi-account-check mdi-36px" aria-expanded="false"></i><h4 class="card-title">Attendence</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                </div>         
+                                <!-- Comment Row -->
+                                
+                <div class="col-lg-6">
+                    <a class="text-dark" href="{% url 'student:student_detail'%}">
+                    <div class="card">
+                        <div class="comment-widgets scrollable">
+                            <div class="d-flex flex-row comment-row m-t-0">
+                                <div class="card-body">
+                                    <i class="mdi mdi-account-multiple mdi-36px" aria-expanded="false"></i><h4 class="card-title">User Details</h4>
+                               
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                </div>     
+                
+
+                      
+                             
+                  
+                                <!-- Comment Row -->
+                                
+                                <!-- Comment Row -->
+            </div>    
+                             
+                    <!-- column -->
+
+                
+
+            <div class="row">
+                        <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- title -->
+                                <div class="d-md-flex align-items-center">
+                                    <div>
+                                        <h4 class="card-title">Time-Table</h4>
+                                        <h5 class="card-subtitle">Overview of Lectures</h5>
+                                        <h5>Division: <input type="hidden" name="division" value='{{div1}}'>{{div}}</h5>
+
+                                    </div>
+                                    
+                                </div>
+                                <!-- title -->
+                            </div>
+                            </div>
+                        </div>
+
+
+                    <div class="col-md-2">
+                        <div class="card ">
+                            <div class="card-body">
+                                <h4 class="card-title">Monday</h4>
+                                <div class="feed-widget">
+                                    <ul class="list-style-none feed-body m-0 p-b-20">
+                                        {% for i in monday %}
+                                        <li class="feed-item" style="border-bottom: 1px solid;">
+                                            {{i.start_time}}-{{i.end_time}}<br>
+                                            {{i.type_of}}: {{i.Lec}}
+                                            </li>
+                                        {% endfor %}
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="card ">
+                            <div class="card-body">
+                                <h4 class="card-title">Tuesday</h4>
+                                <div class="feed-widget">
+                                    <ul class="list-style-none feed-body m-0 p-b-20">
+                                        {% for i in tuesday %}
+                                        <li class="feed-item" style="border-bottom: 1px solid;">
+                                            {{i.start_time}}-{{i.end_time}}<br>
+                                            {{i.type_of}}: {{i.Lec}}
+                                            </li>
+                                        {% endfor %}
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="card ">
+                            <div class="card-body">
+                                <h4 class="card-title">Wednesday</h4>
+                                <div class="feed-widget">
+                                    <ul class="list-style-none feed-body m-0 p-b-20">
+                                        
+                                        {% for i in wednesday %}
+                                        <li class="feed-item" style="border-bottom: 1px solid;">
+                                            {{i.start_time}}-{{i.end_time}}<br>
+                                            {{i.type_of}}: {{i.Lec}}
+                                            </li>
+                                        {% endfor %}
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="card ">
+                            <div class="card-body">
+                                <h4 class="card-title">Thursday</h4>
+                                <div class="feed-widget">
+                                    <ul class="list-style-none feed-body m-0 p-b-20">
+                                        {% for i in thursday %}
+                                        <li class="feed-item" style="border-bottom: 1px solid;">
+                                            {{i.start_time}}-{{i.end_time}}<br>
+                                            {{i.type_of}}: {{i.Lec}}
+                                            </li>
+                                        {% endfor %}
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="card ">
+                            <div class="card-body">
+                                <h4 class="card-title">Friday</h4>
+                                <div class="feed-widget">
+                                    <ul class="list-style-none feed-body m-0 p-b-20">
+                                        {% for i in friday %}
+                                        <li class="feed-item" style="border-bottom: 1px solid;">
+                                            {{i.start_time}}-{{i.end_time}} <br>
+                                            {{i.type_of}}: {{i.Lec}}
+                                            </li>
+                                        {% endfor %}
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="card ">
+                            <div class="card-body">
+                                <h4 class="card-title">Saturday</h4>
+                                <div class="feed-widget">
+                                    <ul class="list-style-none feed-body m-0 p-b-20">
+                                        {% for i in saturday %}
+                                        <li class="feed-item" style="border-bottom: 1px solid;">
+                                            {{i.start_time}}-{{i.end_time}}<br>
+                                            {{i.type_of}}: {{i.Lec}}
+                                            </li>
+                                        {% endfor %}
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+
+                    <!-- column -->
+                    </div>
+                
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+
+
+
+
+
+                
+
+
+
+                
+</div>
+{% endblock%}

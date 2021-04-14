@@ -1,0 +1,115 @@
+{% extends 'Teacher/Teacher_base.html'%}
+{% load static%}
+{% block content%}
+<div class="row">
+                {% for student in students %}
+                    <!-- Column -->
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <center class="m-t-10"> <img src="{{student.user.profile.image.url}}" class="rounded-circle" width="150" height="150" />
+                                    <h4 class="card-title m-t-10">{{student.Student_first_name}} {{student.Student_last_name}}</h4>
+                                    
+                                    <button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#{{student.Student_first_name}}{{student.Student_last_name}}">View</button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+            <div class="modal fade" id="{{student.Student_first_name}}{{student.Student_last_name}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Student Information</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    
+                  </div>
+                  <div class="modal-body">
+                   
+                    
+                    <center class="m-t-10"> <img src="{{student.user.profile.image.url}}" class="rounded-circle" width="150" height="150" />
+                                    <h4 class="card-title m-t-10">{{student.Student_first_name}} {{student.Student_last_name}}</h4>
+                                    <h6 class="card-subtitle m-t-10">Email:{{student.Student_email}}</h6>
+                                    
+                                    <h6 class="card-subtitle m-t-10">Card-ID:{{student.Student_card}}</h6>
+                                    <h6 class="card-subtitle m-t-10">Parent Email:{{student.Parent_email}}</h6></center>
+
+                   
+                    
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- Column -->
+                   
+                <!-- Row -->
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+{% endblock %}

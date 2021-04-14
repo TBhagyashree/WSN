@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Attendence Website</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'Authenticate/images/icons/favicon.ico'%}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Authenticate/vendor/bootstrap/css/bootstrap.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Authenticate/fonts/font-awesome-4.7.0/css/font-awesome.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Authenticate/fonts/Linearicons-Free-v1.0.0/icon-font.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Authenticate/vendor/animate/animate.css'%}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'Authenticate/vendor/css-hamburgers/hamburgers.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Authenticate/vendor/animsition/css/animsition.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Authenticate/vendor/select2/select2.min.css'%}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'Authenticate/vendor/daterangepicker/daterangepicker.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Authenticate/css/util.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Authenticate/css/main.css'%}">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" style="background-color: 	rgb(50,50,50);" method="post" action="{% url 'Authenticate:login' %}">
+					{% csrf_token %}
+					{% for message in messages %}
+
+                                                <div class="alert alert-{{message.tags}}">
+                                                    <a class="close" href="#" data-dismiss="alert">×</a>
+
+                                                    {{ message }}
+
+                                                </div>
+                                        {% endfor %}
+					<span class="login100-form-title p-b-43" style="color: white;">
+						Login
+					</span>
+					
+					
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="text" name="username" placeholder="Username">
+						<span class="focus-input100"></span>
+						<span class="label-input100"></span>
+					</div>
+					
+					
+					<div class="wrap-input100 validate-input" data-validate="Password is required">
+						<input class="input100" type="password" name="pass" placeholder="Password">
+						<span class="focus-input100"></span>
+						<span class="label-input100"></span>
+					</div>
+
+					<div class="flex-sb-m w-full p-t-3 p-b-32">
+						<div class="contact100-form-checkbox">
+							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+							<a href="{% url 'Authenticate:register'%}" class="fa fa-user-plus" style="color: white;">
+								Register
+							</a>
+						</div>
+
+						<div>
+							<a href="#" class="txt1" style="color: white;">
+								Forgot Password?
+							</a>
+						</div>
+					</div>
+			
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Login
+						</button>
+					</div>
+					
+					
+				</form>
+				<div class="login100-more text-center" style="background-color: rgb(250,250,250); ">
+			
+
+				<div class="login100-more" style="background-image: url('{% static 'Authenticate/images/1.png'%}'); background-size: contain; height: 100%; width: 100%;background-color: rgb(250,250,250);">
+					
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	
+	
+
+	
+	
+<!--===============================================================================================-->
+	<script src="{% static 'Authenticate/vendor/jquery/jquery-3.2.1.min.js'%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Authenticate/vendor/animsition/js/animsition.min.js'%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Authenticate/vendor/bootstrap/js/popper.js'%}"></script>
+	<script src="{% static 'Authenticate/vendor/bootstrap/js/bootstrap.min.js'%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Authenticate/vendor/select2/select2.min.js'%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Authenticate/vendor/daterangepicker/moment.min.js'%}"></script>
+	<script src="{% static 'Authenticate/vendor/daterangepicker/daterangepicker.js'%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Authenticate/vendor/countdowntime/countdowntime.js'%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Authenticate/js/main.js'%}"></script>
+
+</body>
+</html>

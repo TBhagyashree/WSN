@@ -1,0 +1,109 @@
+{% extends 'teacher/teacher_base.html'%}
+{% load static%}
+{% load template_filters %}
+{% block content%}
+
+ <div class="page-breadcrumb">
+    <div class="row align-items-center d-md-flex">
+        <div class="col-10">
+            <h4 class="page-title">Defaulters</h4>
+            <div class="d-flex align-items-center">
+            	<nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Library</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+	    <nav>
+	        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+	            <a class="nav-item nav-link active text-dark" id="nav-summary-tab" data-toggle="tab" href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="true">Summary</a>
+	            <a class="nav-item nav-link text-dark" id="nav-graph-tab" data-toggle="tab" href="#nav-graph" role="tab" aria-controls="nav-graph" aria-selected="false">Defaulter Graph View</a>
+	            <a class="nav-item nav-link text-dark" id="nav-statistics-tab" data-toggle="tab" href="#nav-statistics" role="tab" aria-controls="nav-statistics" aria-selected="false">Defaulter Statistics View</a>
+	        </div>
+	    </nav>
+	    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+	    	<div class="tab-pane fade hii" id="nav-graph" role="tabpanel" aria-labelledby="nav-graph-tab">
+
+	    	</div>
+
+	    	<div class="tab-pane fade show active" id="nav-summary" role="tabpanel" aria-labelledby="nav-summary-tab">
+	    				<div class="row">
+                            <div class="col-lg-12">
+                                <a class="text-dark" href="#">
+                                    <div class="card" style="text-align: center;">
+                                        <div class="comment-widgets scrollable">
+                                            <div class="d-flex flex-row comment-row m-t-0">
+                                                <div class="card-body">
+                                                    <i class="mdi mdi-account-check mdi-36px " aria-expanded="false"></i><h4 class="card-title">Total No. of Defaulters (Overall) : <span class="counter-count">0</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <a class="text-dark" href="#">
+                                    <div class="card" style="text-align: center;">
+                                        <div class="comment-widgets scrollable">
+                                            <div class="d-flex flex-row comment-row m-t-0">
+                                                <div class="card-body">
+                                                    <i class="mdi mdi-account-check mdi-36px " aria-expanded="false"></i><h4 class="card-title">Critical Defaulters :  <span class="counter-count">0</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>     
+
+
+
+
+                            <div class="col-lg-6">
+                                <a class="text-dark" href="#">
+                                    <div class="card" style="text-align: center;">
+                                        <div class="comment-widgets scrollable">
+                                            <div class="d-flex flex-row comment-row m-t-0">
+                                                <div class="card-body">
+                                                    <i class="mdi mdi-account-star mdi-36px " aria-expanded="false"></i><h4 class="card-title">Defaulters :</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>     
+
+
+                        </div>
+	    	</div>
+
+	    	<div class="tab-pane fade" id="nav-statistics" role="tabpanel" aria-labelledby="nav-statistics-tab">
+	    	</div>
+	    </div>
+
+
+    </div>
+</div>
+
+<script type="text/javascript">
+          $('.counter-count').each(function () {
+        $(this).prop('Counter',0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 2000,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(Math.round(now * 10) / 10);
+            }
+        });
+    });
+</script>
+{% endblock%}

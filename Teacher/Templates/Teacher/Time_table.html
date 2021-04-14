@@ -1,0 +1,1337 @@
+{% extends 'Teacher/Teacher_base.html'%}
+{% load static%}
+{% block content%}
+<head>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+                    function yesnoCheck(that) {
+                        if (that.value == "Lab") {
+         
+                            document.getElementById("newnew").style.display = "block";
+                            document.getElementById("newnew1").style.display = "block";
+                            document.getElementById("newnew2").style.display = "block";
+                            document.getElementById("newnew3").style.display = "block";
+                            document.getElementById("newnew4").style.display = "block";
+                            document.getElementById("newnew5").style.display = "block";
+                        } else {
+                            document.getElementById("newnew").style.display = "none";
+                            document.getElementById("newnew1").style.display = "none";
+                            document.getElementById("newnew2").style.display = "none";
+                            document.getElementById("newnew3").style.display = "none";
+                            document.getElementById("newnew4").style.display = "none";
+                            document.getElementById("newnew5").style.display = "none";
+                        }
+                    }
+                </script>
+</head>
+<div class="page-breadcrumb">
+                <div class="row align-items-center d-md-flex">
+                    <div class="col-10">
+                        <h4 class="page-title">Dashboard</h4>
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Timetable</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">View</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                            <div class="ml-auto text-right upgrade-btn">
+                                        <div class="dl">
+                                            Division : {{division}}
+                                            
+                                        </div>
+                                   
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+<section id="tabs">
+	<div class="container">
+		
+		<div class="row">
+			<div class="col-md-12 ">
+				{% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+				<nav>
+					<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+						<a class="nav-item nav-link active" id="nav-monday-tab" data-toggle="tab" href="#nav-monday" role="tab" aria-controls="nav-monday" aria-selected="true">Monday</a>
+						<a class="nav-item nav-link" id="nav-tuesday-tab" data-toggle="tab" href="#nav-tuesday" role="tab" aria-controls="nav-tuesday" aria-selected="false">Tuesday</a>
+						<a class="nav-item nav-link" id="nav-wednesday-tab" data-toggle="tab" href="#nav-wednesday" role="tab" aria-controls="nav-wednesday" aria-selected="false">Wednesday</a>
+						<a class="nav-item nav-link" id="nav-thursday-tab" data-toggle="tab" href="#nav-thursday" role="tab" aria-controls="nav-thursday" aria-selected="false">Thursday</a>
+						<a class="nav-item nav-link" id="nav-friday-tab" data-toggle="tab" href="#nav-friday" role="tab" aria-controls="nav-friday" aria-selected="false">Friday</a>
+						<a class="nav-item nav-link" id="nav-saturday-tab" data-toggle="tab" href="#nav-saturday" role="tab" aria-controls="nav-saturday" aria-selected="false">Saturday</a>
+					</div>
+				</nav>
+				<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+					<div class="tab-pane fade show active" id="nav-monday" role="tabpanel" aria-labelledby="nav-monday-tab">
+						<div class="row">
+							<div class="col-md-12">
+		                        <div class="card">
+		                            <div class="card-body">
+		                                <center class="m-t-10"> 
+		                             		<h6>Edit Lec Details</h6>
+		                             		<button type="button" class="btn btn-danger btn" data-toggle="modal" data-target="#myModal1">Add Lec/Lab</button>
+		                                </center>
+		                                
+		                            </div>
+		                        </div>
+	                    	</div>
+
+	                    	{% for lec in monday %}
+
+	                    	<div class="col-md-4">
+		                        <div class="card">
+		                            <div class="card-body">
+		                            	<h6>Lec/Lab: {{lec.Lec}} {{lec.type_of}} {{lec.Batch}}</h6>
+		                                
+
+		                                    
+		                                    <h6>Timing: {{lec.start_time}}-{{lec.end_time}}</h6><br>
+		                                    <center class="m-t-5"> 
+		                                    <button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#{{lec.Lec}}{{lec.day}}{{lec.type_of}}">View</button>
+		                                </center>
+		                            </div>
+		                        </div>
+		                    </div>
+			                    <div class="modal fade" id="{{lec.Lec}}{{lec.day}}{{lec.type_of}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					              <div class="modal-dialog">
+					                <div class="modal-content">
+					                  <div class="modal-header">
+					                    <h4 class="modal-title" id="myModalLabel">Lec Details</h4>
+					                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+					                    
+					                  </div>
+				                  <div class="modal-body">
+				                   
+				                    
+				                    <center class="m-t-10">
+				                                <div class="col-lg-12 col-xlg-12 col-md-12">    
+				                    		<form class="form-horizontal form-material" method='post' action="{% url 'Teacher:Time_table_delete'%}">
+									<fieldset>
+											{% csrf_token %}
+									          <!-- Form Name -->
+									          
+
+									          <!-- Text input-->
+									          <div class="form-group">
+									            <div class="col-sm-6">
+									              Start Time: {{lec.start_time}} <input type='hidden' name = 'start' value='{{lec.start_time}}'>
+									            </div>
+									            <div class="col-sm-6">
+									              End Time: {{lec.end_time}}<input type='hidden' name = 'end' value='{{lec.end_time}}'>
+									            </div>
+									            <div class="col-sm-8">
+									              Lec Name: {{lec.Lec}}<input type='hidden' name = 'lec' value='{{lec.Lec}}'>
+									            </div>
+									            <div class="col-sm-8">
+									              Day: Monday <input type='hidden' name = 'day' value='Monday'>
+									            </div><div class="col-sm-8">
+							              Type :{{lec.type_of}} <input type='hidden' name = 'type_of' value='{{lec.type_of}}'>
+							                
+							             
+							            </div>
+									            
+									          </div>
+
+									          <!-- Text input-->
+									         
+									            
+									<!-- Command -->
+									          <div class="form-group">
+									            <div class="col-sm-6 col-sm-offset-1">
+									              <div class="modal-footer">
+								                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								                    <button type="submit" class="btn btn-danger">Delete</button>
+								                  </div>
+									            </div>
+									          </div>
+									        </fieldset>
+		                                      </form>
+		                               
+		                            </div>
+
+				                 </center>
+
+				                   
+				                    
+				                    
+				                  </div>
+				                  
+				                </div>
+				              </div>
+				          </div>
+
+	                    	{% endfor%}
+
+			                    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					              <div class="modal-dialog">
+					                <div class="modal-content">
+					                  <div class="modal-header">
+					                    <h4 class="modal-title" id="myModalLabel">Lec Details</h4>
+					                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+					                    
+					                  </div>
+				                  <div class="modal-body">
+				                   
+				                    
+				                    <center class="m-t-10">
+				                                <div class="col-lg-12 col-xlg-12 col-md-12">    
+				                    		<form class="form-horizontal form-material" method='post' action="{% url 'Teacher:Time_table'%}">
+									<fieldset>
+											{% csrf_token %}
+									          <!-- Form Name -->
+									          
+
+									          <!-- Text input-->
+									          <div class="form-group">
+									            <div class="col-sm-8">
+									              Start Time:<input type="time" name="start" class="form-control">
+									            </div>
+									            <div class="col-sm-8">
+									              End Time:<input type="time" name="end" class="form-control">
+									            </div>
+									            <div class="col-sm-8">
+									              Lec Name:<input type="text" name="lec" placeholder="Lec" class="form-control">
+									            </div>
+									            <div class="col-sm-8">
+									              Day:<input type="text" placeholder="Monday"  name="Day"class="form-control" value="Monday">
+									            </div><div class="col-sm-8">
+							              Type :<select type="text"  name='type'class="form-control" onchange="yesnoCheck(this);">
+							               	<option value="Lec">Lec</option>
+							                <option value="Lab">Lab</option>
+							                
+							              </select>
+
+							            </div>
+							            <div class="col-sm-8" id="newnew" style="display: none;">
+							             Batch:<input type="text" placeholder="Batch"  name="batch"class="form-control">
+							            </div>
+							            
+									            
+									          </div>
+
+									          <!-- Text input-->
+									         
+									            
+									<!-- Command -->
+									          <div class="form-group">
+									            <div class="col-sm-6 col-sm-offset-1">
+									              <div class="modal-footer">
+								                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								                    <button type="submit" name="submit" class="btn btn-primary">Add</button>
+								                  </div>
+									            </div>
+									          </div>
+									        </fieldset>
+		                                    
+		                                </form>
+		                            </div>
+
+				                 </center>
+
+				                   
+				                    
+				                    
+				                  </div>
+				                  
+				                </div>
+				              </div>
+		            		</div>
+		            	</div>
+		            </div>
+		            	
+					
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					<div class="tab-pane fade" id="nav-tuesday" role="tabpanel" aria-labelledby="nav-tuesday-tab">
+						<div class="row">
+						<div class="col-md-12">
+	                        <div class="card">
+	                            <div class="card-body">
+	                                <center class="m-t-10"> 
+	                             		<h6>Edit Lec Details</h6>
+	                             		<button type="button" class="btn btn-danger btn" data-toggle="modal" data-target="#myModal7">Add Lec/Lab</button>
+	                                </center>
+
+	                            </div>
+	                        </div>
+                    	</div>
+
+                    	{% for lec in tuesday %}
+
+	                    	<div class="col-md-4">
+		                        <div class="card">
+		                            <div class="card-body">
+		                            	<h6>Lec/Lab: {{lec.Lec}} {{lec.type_of}} {{lec.Batch}}</h6>
+		                                
+
+		                                    
+		                                    <h6>Timing: {{lec.start_time}}-{{lec.end_time}}</h6><br>
+		                                    <center class="m-t-5"> 
+		                                    <button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#{{lec.Lec}}{{lec.day}}{{lec.type_of}}">View</button>
+		                                </center>
+		                            </div>
+		                        </div>
+		                    </div>
+			                    <div class="modal fade" id="{{lec.Lec}}{{lec.day}}{{lec.type_of}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					              <div class="modal-dialog">
+					                <div class="modal-content">
+					                  <div class="modal-header">
+					                    <h4 class="modal-title" id="myModalLabel">Lec Details</h4>
+					                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+					                    
+					                  </div>
+				                  <div class="modal-body">
+				                   
+				                    
+				                    <center class="m-t-10">
+				                                <div class="col-lg-12 col-xlg-12 col-md-12">    
+				                    		<form class="form-horizontal form-material" method='post' action="{% url 'Teacher:Time_table_delete'%}">
+									<fieldset>
+											{% csrf_token %}
+									          <!-- Form Name -->
+									          
+
+									          <!-- Text input-->
+									          <div class="form-group">
+									            <div class="col-sm-6">
+									              Start Time: {{lec.start_time}} <input type='hidden' name = 'start' value='{{lec.start_time}}'>
+									            </div>
+									            <div class="col-sm-6">
+									              End Time: {{lec.end_time}}<input type='hidden' name = 'end' value='{{lec.end_time}}'>
+									            </div>
+									            <div class="col-sm-8">
+									              Lec Name: {{lec.Lec}}<input type='hidden' name = 'lec' value='{{lec.Lec}}'>
+									            </div>
+									            <div class="col-sm-8">
+									              Day: Tuesday <input type='hidden' name = 'day' value='Tuesday'>
+									            </div><div class="col-sm-8">
+							              Type :{{lec.type_of}} <input type='hidden' name = 'type_of' value='{{lec.type_of}}'>
+							                
+							             
+							            </div>
+									            
+									          </div>
+
+									          <!-- Text input-->
+									         
+									            
+									<!-- Command -->
+									          <div class="form-group">
+									            <div class="col-sm-6 col-sm-offset-1">
+									              <div class="modal-footer">
+								                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								                    <button type="submit" class="btn btn-danger">Delete</button>
+								                  </div>
+									            </div>
+									          </div>
+									        </fieldset>
+		               </form>                     
+		                               
+		                            </div>
+
+				                 </center>
+
+				                   
+				                    
+				                    
+				                  </div>
+				                  
+				                </div>
+				              </div>
+				          </div>
+
+	                    	{% endfor%}
+
+
+
+
+                    	
+                    <div class="modal fade" id="myModal7" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		              <div class="modal-dialog">
+		                <div class="modal-content">
+		                  <div class="modal-header">
+		                    <h4 class="modal-title" id="myModalLabel">Lec Details</h4>
+		                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+		                    
+		                  </div>
+		                  <div class="modal-body">
+		                   
+		                    
+		                    <center class="m-t-10">
+		                                <div class="col-lg-12 col-xlg-12 col-md-12">    
+		                    		<form class="form-horizontal form-material" method='post' action="{% url 'Teacher:Time_table'%}">
+							<fieldset>
+									{% csrf_token %}
+							          <!-- Form Name -->
+							          
+
+							          <!-- Text input-->
+							          <div class="form-group">
+							            <div class="col-sm-8">
+							              Start Time:<input type="time" name="start" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              End Time:<input type="time" name="end" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              Lec Name:<input type="text" name="lec" placeholder="Lec" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              Day:<input type="text" placeholder="Tuesday"  name="Day"class="form-control" value="Tuesday">
+							            </div><div class="col-sm-8">
+							              Type :<select type="text"  name='type'class="form-control" onchange="yesnoCheck(this);">
+							               	<option value="Lec">Lec</option>
+							                <option value="Lab">Lab</option>
+							                
+							              </select>
+
+							            </div>
+							            <div class="col-sm-8" id="newnew1" style="display: none;">
+							             Batch:<input type="text" placeholder="Batch"  name="batch"class="form-control">
+							            </div>
+							            
+							            
+							          </div>
+
+							          <!-- Text input-->
+							         
+							            
+							<!-- Command -->
+							          <div class="form-group">
+							            <div class="col-sm-6 col-sm-offset-1">
+							              <div class="modal-footer">
+		                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                    <button type="submit" name="submit" class="btn btn-primary">Add</button>
+		                  </div>
+							            </div>
+							          </div>
+							        </fieldset>
+                                    
+                                </form>
+                            </div>
+
+
+
+
+
+
+		                                    </center>
+
+		                   
+		                    
+		                    
+		                  </div>
+		                  
+		                </div>
+		              </div>
+		            </div>
+
+
+
+		            
+					</div>
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					<div class="tab-pane fade" id="nav-wednesday" role="tabpanel" aria-labelledby="nav-wednesday-tab">
+						<div class="row">
+						<div class="col-md-12">
+	                        <div class="card">
+	                            <div class="card-body">
+	                                <center class="m-t-10"> 
+	                             		<h6>Edit Lec Details</h6>
+	                             		<button type="button" class="btn btn-danger btn" data-toggle="modal" data-target="#myModal13">Add Lec/Lab</button>
+	                                </center>
+	                            </div>
+	                        </div>
+                    	</div>
+					
+					{% for lec in wednesday %}
+
+	                    	<div class="col-md-4">
+		                        <div class="card">
+		                            <div class="card-body">
+		                            	<h6>Lec/Lab: {{lec.Lec}} {{lec.type_of}} {{lec.Batch}}</h6>
+		                                
+
+		                                    
+		                                    <h6>Timing: {{lec.start_time}}-{{lec.end_time}}</h6><br>
+		                                    <center class="m-t-5"> 
+		                                    <button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#{{lec.Lec}}{{lec.day}}{{lec.type_of}}">View</button>
+		                                </center>
+		                            </div>
+		                        </div>
+		                    </div>
+			                    <div class="modal fade" id="{{lec.Lec}}{{lec.day}}{{lec.type_of}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					              <div class="modal-dialog">
+					                <div class="modal-content">
+					                  <div class="modal-header">
+					                    <h4 class="modal-title" id="myModalLabel">Lec Details</h4>
+					                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+					                    
+					                  </div>
+				                  <div class="modal-body">
+				                   
+				                    
+				                    <center class="m-t-10">
+				                                <div class="col-lg-12 col-xlg-12 col-md-12">    
+				                    		<form class="form-horizontal form-material" method='post' action="{% url 'Teacher:Time_table_delete'%}">
+									<fieldset>
+											{% csrf_token %}
+									          <!-- Form Name -->
+									          
+
+									          <!-- Text input-->
+									          <div class="form-group">
+									            <div class="col-sm-6">
+									              Start Time: {{lec.start_time}} <input type='hidden' name = 'start' value='{{lec.start_time}}'>
+									            </div>
+									            <div class="col-sm-6">
+									              End Time: {{lec.end_time}}<input type='hidden' name = 'end' value='{{lec.end_time}}'>
+									            </div>
+									            <div class="col-sm-8">
+									              Lec Name: {{lec.Lec}}<input type='hidden' name = 'lec' value='{{lec.Lec}}'>
+									            </div>
+									            <div class="col-sm-8">
+									              Day: Wednesday <input type='hidden' name = 'day' value='Wednesday'>
+									            </div><div class="col-sm-8">
+							              Type :{{lec.type_of}} <input type='hidden' name = 'type_of' value='{{lec.type_of}}'>
+							                
+							             
+							            </div>
+									            
+									          </div>
+
+									          <!-- Text input-->
+									         
+									            
+									<!-- Command -->
+									          <div class="form-group">
+									            <div class="col-sm-6 col-sm-offset-1">
+									              <div class="modal-footer">
+								                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								                    <button type="submit" class="btn btn-danger">Delete</button>
+								                  </div>
+									            </div>
+									          </div>
+									        </fieldset>
+		               </form>                     
+		                               
+		                            </div>
+
+				                 </center>
+
+				                   
+				                    
+				                    
+				                  </div>
+				                  
+				                </div>
+				              </div>
+				          </div>
+
+	                    	{% endfor%}
+
+                    	
+                    <div class="modal fade" id="myModal13" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		              <div class="modal-dialog">
+		                <div class="modal-content">
+		                  <div class="modal-header">
+		                    <h4 class="modal-title" id="myModalLabel">Lec Details</h4>
+		                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+		                    
+		                  </div>
+		                  <div class="modal-body">
+		                   
+		                    
+		                    <center class="m-t-10">
+		                                <div class="col-lg-12 col-xlg-12 col-md-12">    
+		                    		<form class="form-horizontal form-material" method='post' action="{% url 'Teacher:Time_table'%}">
+							<fieldset>
+									{% csrf_token %}
+							          <!-- Form Name -->
+							          
+
+							          <!-- Text input-->
+							          <div class="form-group">
+							            <div class="col-sm-8">
+							              Start Time:<input type="time" name="start" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              End Time:<input type="time" name="end" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              Lec Name:<input type="text" name="lec" placeholder="Lec" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              Day:<input type="text" placeholder="Wednesday"  name="Day"class="form-control" value="Wednesday">
+							            </div><div class="col-sm-8">
+							              Type :<select type="text"  name='type'class="form-control" onchange="yesnoCheck(this);">
+							               	<option value="Lec">Lec</option>
+							                <option value="Lab">Lab</option>
+							                
+							              </select>
+
+							            </div>
+							            <div class="col-sm-8" id="newnew2" style="display: none;">
+							             Batch:<input type="text" placeholder="Batch"  name="batch"class="form-control">
+							            </div>
+							            
+							            
+							          </div>
+
+							          <!-- Text input-->
+							         
+							            
+							<!-- Command -->
+							          <div class="form-group">
+							            <div class="col-sm-6 col-sm-offset-1">
+							              <div class="modal-footer">
+		                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                    <button type="submit" name="submit" class="btn btn-primary">Add</button>
+		                  </div>
+							            </div>
+							          </div>
+							        </fieldset>
+                                    
+                                </form>
+                            </div>
+
+
+
+
+
+
+		                                    </center>
+
+		                   
+		                    
+		                    
+		                  </div>
+		                  
+		                </div>
+		              </div>
+		            </div>
+
+
+
+
+
+		            
+					</div>
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					<div class="tab-pane fade" id="nav-thursday" role="tabpanel" aria-labelledby="nav-thursday-tab">
+						<div class="row">
+						<div class="col-md-12">
+	                        <div class="card">
+	                            <div class="card-body">
+	                                <center class="m-t-10"> 
+	                             		<h6>Edit Lec Details</h6>
+	                             		<button type="button" class="btn btn-danger btn" data-toggle="modal" data-target="#myModal19">Add Lec/Lab</button>
+	                                </center>
+	                            </div>
+	                        </div>
+                    	</div>
+					{% for lec in thursday %}
+
+	                    	<div class="col-md-4">
+		                        <div class="card">
+		                            <div class="card-body">
+		                            	<h6>Lec/Lab: {{lec.Lec}} {{lec.type_of}} {{lec.Batch}}</h6>
+		                                
+
+		                                    
+		                                    <h6>Timing: {{lec.start_time}}-{{lec.end_time}}</h6><br>
+		                                    <center class="m-t-5"> 
+		                                    <button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#{{lec.Lec}}{{lec.day}}{{lec.type_of}}">View</button>
+		                                </center>
+		                            </div>
+		                        </div>
+		                    </div>
+			                    <div class="modal fade" id="{{lec.Lec}}{{lec.day}}{{lec.type_of}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					              <div class="modal-dialog">
+					                <div class="modal-content">
+					                  <div class="modal-header">
+					                    <h4 class="modal-title" id="myModalLabel">Lec Details</h4>
+					                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+					                    
+					                  </div>
+				                  <div class="modal-body">
+				                   
+				                    
+				                    <center class="m-t-10">
+				                                <div class="col-lg-12 col-xlg-12 col-md-12">    
+				                    		<form class="form-horizontal form-material" method='post' action="{% url 'Teacher:Time_table_delete'%}">
+									<fieldset>
+											{% csrf_token %}
+									          <!-- Form Name -->
+									          
+
+									          <!-- Text input-->
+									          <div class="form-group">
+									            <div class="col-sm-6">
+									              Start Time: {{lec.start_time}} <input type='hidden' name = 'start' value='{{lec.start_time}}'>
+									            </div>
+									            <div class="col-sm-6">
+									              End Time: {{lec.end_time}}<input type='hidden' name = 'end' value='{{lec.end_time}}'>
+									            </div>
+									            <div class="col-sm-8">
+									              Lec Name: {{lec.Lec}}<input type='hidden' name = 'lec' value='{{lec.Lec}}'>
+									            </div>
+									            <div class="col-sm-8">
+									              Day: Wednesday <input type='hidden' name = 'day' value='Thursday'>
+									            </div><div class="col-sm-8">
+							              Type :{{lec.type_of}} <input type='hidden' name = 'type_of' value='{{lec.type_of}}'>
+							                
+							             
+							            </div>
+									            
+									          </div>
+
+									          <!-- Text input-->
+									         
+									            
+									<!-- Command -->
+									          <div class="form-group">
+									            <div class="col-sm-6 col-sm-offset-1">
+									              <div class="modal-footer">
+								                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								                    <button type="submit" class="btn btn-danger">Delete</button>
+								                  </div>
+									            </div>
+									          </div>
+									        </fieldset>
+		               </form>                     
+		                               
+		                            </div>
+
+				                 </center>
+
+				                   
+				                    
+				                    
+				                  </div>
+				                  
+				                </div>
+				              </div>
+				          </div>
+
+	                    	{% endfor%}
+                    	
+                    <div class="modal fade" id="myModal19" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		              <div class="modal-dialog">
+		                <div class="modal-content">
+		                  <div class="modal-header">
+		                    <h4 class="modal-title" id="myModalLabel">Lec Details</h4>
+		                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+		                    
+		                  </div>
+		                  <div class="modal-body">
+		                   
+		                    
+		                    <center class="m-t-10">
+		                                <div class="col-lg-12 col-xlg-12 col-md-12">    
+		                    		<form class="form-horizontal form-material" method='post' action="{% url 'Teacher:Time_table'%}">
+							<fieldset>
+									{% csrf_token %}
+							          <!-- Form Name -->
+							          
+
+							          <!-- Text input-->
+							          <div class="form-group">
+							            <div class="col-sm-8">
+							              Start Time:<input type="time" name="start" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              End Time:<input type="time" name="end" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              Lec Name:<input type="text" name="lec" placeholder="Lec" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              Day:<input type="text" placeholder="Thursday"  name="Day"class="form-control" value="Thursday">
+							            </div><div class="col-sm-8">
+							              Type :<select type="text"  name='type'class="form-control" onchange="yesnoCheck(this);">
+							               	<option value="Lec">Lec</option>
+							                <option value="Lab">Lab</option>
+							                
+							              </select>
+
+							            </div>
+							            <div class="col-sm-8" id="newnew3" style="display: none;">
+							             Batch:<input type="text" placeholder="Batch"  name="batch"class="form-control">
+							            </div>
+							            
+							            
+							          </div>
+
+							          <!-- Text input-->
+							         
+							            
+							<!-- Command -->
+							          <div class="form-group">
+							            <div class="col-sm-6 col-sm-offset-1">
+							              <div class="modal-footer">
+		                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                    <button type="submit" name="submit" class="btn btn-primary">Add</button>
+		                  </div>
+							            </div>
+							          </div>
+							        </fieldset>
+                                    
+                                </form>
+                            </div>
+
+
+
+
+
+
+		                                    </center>
+
+		                   
+		                    
+		                    
+		                  </div>
+		                  
+		                </div>
+		              </div>
+		            </div>
+
+
+		            
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					<div class="tab-pane fade" id="nav-friday" role="tabpanel" aria-labelledby="nav-friday-tab">
+						<div class="row">
+						<div class="col-md-12">
+	                        <div class="card">
+	                            <div class="card-body">
+	                                <center class="m-t-10"> 
+	                             		<h6>Edit Lec Details</h6>
+	                             	 <button type="button" class="btn btn-danger btn" data-toggle="modal" data-target="#myModal25">Add Lec/Lab</button>
+	                                </center>
+	                            </div>
+	                        </div>
+                    	</div>
+					{% for lec in friday %}
+
+	                    	<div class="col-md-4">
+		                        <div class="card">
+		                            <div class="card-body">
+		                            	<h6>Lec/Lab: {{lec.Lec}} {{lec.type_of}} {{lec.Batch}}</h6>
+		                                
+
+		                                    
+		                                    <h6>Timing: {{lec.start_time}}-{{lec.end_time}}</h6><br>
+		                                    <center class="m-t-5"> 
+		                                    <button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#{{lec.Lec}}{{lec.day}}{{lec.type_of}}">View</button>
+		                                </center>
+		                            </div>
+		                        </div>
+		                    </div>
+			                    <div class="modal fade" id="{{lec.Lec}}{{lec.day}}{{lec.type_of}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					              <div class="modal-dialog">
+					                <div class="modal-content">
+					                  <div class="modal-header">
+					                    <h4 class="modal-title" id="myModalLabel">Lec Details</h4>
+					                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+					                    
+					                  </div>
+				                  <div class="modal-body">
+				                   
+				                    
+				                    <center class="m-t-10">
+				                                <div class="col-lg-12 col-xlg-12 col-md-12">    
+				                    		<form class="form-horizontal form-material" method='post' action="{% url 'Teacher:Time_table_delete'%}">
+									<fieldset>
+											{% csrf_token %}
+									          <!-- Form Name -->
+									          
+
+									          <!-- Text input-->
+									          <div class="form-group">
+									            <div class="col-sm-6">
+									              Start Time: {{lec.start_time}} <input type='hidden' name = 'start' value='{{lec.start_time}}'>
+									            </div>
+									            <div class="col-sm-6">
+									              End Time: {{lec.end_time}}<input type='hidden' name = 'end' value='{{lec.end_time}}'>
+									            </div>
+									            <div class="col-sm-8">
+									              Lec Name: {{lec.Lec}}<input type='hidden' name = 'lec' value='{{lec.Lec}}'>
+									            </div>
+									            <div class="col-sm-8">
+									              Day: Wednesday <input type='hidden' name = 'day' value='Friday'>
+									            </div><div class="col-sm-8">
+							              Type :{{lec.type_of}} <input type='hidden' name = 'type_of' value='{{lec.type_of}}'>
+							                
+							             
+							            </div>
+									            
+									          </div>
+
+									          <!-- Text input-->
+									         
+									            
+									<!-- Command -->
+									          <div class="form-group">
+									            <div class="col-sm-6 col-sm-offset-1">
+									              <div class="modal-footer">
+								                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								                    <button type="submit" class="btn btn-danger">Delete</button>
+								                  </div>
+									            </div>
+									          </div>
+									        </fieldset>
+		               </form>                     
+		                               
+		                            </div>
+
+				                 </center>
+
+				                   
+				                    
+				                    
+				                  </div>
+				                  
+				                </div>
+				              </div>
+				          </div>
+
+	                    	{% endfor%}
+
+                    	
+                    <div class="modal fade" id="myModal25" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		              <div class="modal-dialog">
+		                <div class="modal-content">
+		                  <div class="modal-header">
+		                    <h4 class="modal-title" id="myModalLabel">Lec Details</h4>
+		                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+		                    
+		                  </div>
+		                  <div class="modal-body">
+		                   
+		                    
+		                    <center class="m-t-10">
+		                                <div class="col-lg-12 col-xlg-12 col-md-12">    
+		                    		<form class="form-horizontal form-material" method='post' action="{% url 'Teacher:Time_table'%}">
+							<fieldset>
+									{% csrf_token %}
+							          <!-- Form Name -->
+							          
+
+							          <!-- Text input-->
+							          <div class="form-group">
+							            <div class="col-sm-8">
+							              Start Time:<input type="time" name="start" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              End Time:<input type="time" name="end" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              Lec Name:<input type="text" name="lec" placeholder="Lec" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              Day:<input type="text" placeholder="Friday"  name="Day"class="form-control" value="Friday">
+							            </div><div class="col-sm-8">
+							              Type :<select type="text"  name='type'class="form-control" onchange="yesnoCheck(this);">
+							               	<option value="Lec">Lec</option>
+							                <option value="Lab">Lab</option>
+							                
+							              </select>
+
+							            </div>
+							            <div class="col-sm-8" id="newnew4" style="display: none;">
+							             Batch:<input type="text" placeholder="Batch"  name="batch"class="form-control">
+							            </div>
+							            
+							            
+							          </div>
+
+							          <!-- Text input-->
+							         
+							            
+							<!-- Command -->
+							          <div class="form-group">
+							            <div class="col-sm-6 col-sm-offset-1">
+							              <div class="modal-footer">
+		                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                    <button type="submit" name="submit" class="btn btn-primary">Add</button>
+		                  </div>
+							            </div>
+							          </div>
+							        </fieldset>
+                                    
+                                </form>
+                            </div>
+
+
+
+
+
+
+		                                    </center>
+
+		                   
+		                    
+		                    
+		                  </div>
+		                  
+		                </div>
+		              </div>
+		            </div>
+
+
+
+
+
+
+		            
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+					<div class="tab-pane fade" id="nav-saturday" role="tabpanel" aria-labelledby="nav-saturday-tab">
+						<div class="row">
+						<div class="col-md-12">
+	                        <div class="card">
+	                            <div class="card-body">
+	                                <center class="m-t-10"> 
+	                             		<h6>Edit Lec Details</h6>
+	                             		<button type="button" class="btn btn-danger btn" data-toggle="modal" data-target="#myModal31">Add Lec/Lab</button>
+	                                </center>
+	                            </div>
+	                        </div>
+                    	</div>
+						{% for lec in saturday %}
+
+	                    	<div class="col-md-4">
+		                        <div class="card">
+		                            <div class="card-body">
+		                            	<h6>Lec/Lab: {{lec.Lec}} {{lec.type_of}} {{lec.Batch}}</h6>
+		                                
+
+		                                    
+		                                    <h6>Timing: {{lec.start_time}}-{{lec.end_time}}</h6><br>
+		                                    <center class="m-t-5"> 
+		                                    <button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#{{lec.Lec}}{{lec.day}}{{lec.type_of}}">View</button>
+		                                </center>
+		                            </div>
+		                        </div>
+		                    </div>
+			                    <div class="modal fade" id="{{lec.Lec}}{{lec.day}}{{lec.type_of}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					              <div class="modal-dialog">
+					                <div class="modal-content">
+					                  <div class="modal-header">
+					                    <h4 class="modal-title" id="myModalLabel">Lec Details</h4>
+					                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+					                    
+					                  </div>
+				                  <div class="modal-body">
+				                   
+				                    
+				                    <center class="m-t-10">
+				                                <div class="col-lg-12 col-xlg-12 col-md-12">    
+				                    		<form class="form-horizontal form-material" method='post' action="{% url 'Teacher:Time_table_delete'%}">
+									<fieldset>
+											{% csrf_token %}
+									          <!-- Form Name -->
+									          
+
+									          <!-- Text input-->
+									          <div class="form-group">
+									            <div class="col-sm-6">
+									              Start Time: {{lec.start_time}} <input type='hidden' name = 'start' value='{{lec.start_time}}'>
+									            </div>
+									            <div class="col-sm-6">
+									              End Time: {{lec.end_time}}<input type='hidden' name = 'end' value='{{lec.end_time}}'>
+									            </div>
+									            <div class="col-sm-8">
+									              Lec Name: {{lec.Lec}}<input type='hidden' name = 'lec' value='{{lec.Lec}}'>
+									            </div>
+									            <div class="col-sm-8">
+									              Day: Wednesday <input type='hidden' name = 'day' value='Saturday'>
+									            </div><div class="col-sm-8">
+							              Type :{{lec.type_of}} <input type='hidden' name = 'type_of' value='{{lec.type_of}}'>
+							                
+							             
+							            </div>
+									            
+									          </div>
+
+									          <!-- Text input-->
+									         
+									            
+									<!-- Command -->
+									          <div class="form-group">
+									            <div class="col-sm-6 col-sm-offset-1">
+									              <div class="modal-footer">
+								                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								                    <button type="submit" class="btn btn-danger">Delete</button>
+								                  </div>
+									            </div>
+									          </div>
+									        </fieldset>
+		               </form>                     
+		                               
+		                            </div>
+
+				                 </center>
+
+				                   
+				                    
+				                    
+				                  </div>
+				                  
+				                </div>
+				              </div>
+				          </div>
+
+	                    	{% endfor%}
+						
+                    <div class="modal fade" id="myModal31" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		              <div class="modal-dialog">
+		                <div class="modal-content">
+		                  <div class="modal-header">
+		                    <h4 class="modal-title" id="myModalLabel">Lec Details</h4>
+		                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+		                    
+		                  </div>
+		                  <div class="modal-body">
+		                   
+		                    
+		                    <center class="m-t-10">
+		                                <div class="col-lg-12 col-xlg-12 col-md-12">    
+		                    		<form class="form-horizontal form-material" method='post' action="{% url 'Teacher:Time_table'%}">
+							<fieldset>
+									{% csrf_token %}
+							          <!-- Form Name -->
+							          
+
+							          <!-- Text input-->
+							          <div class="form-group">
+							            <div class="col-sm-8">
+							              Start Time:<input type="time" name="start" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              End Time:<input type="time" name="end" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              Lec Name:<input type="text" name="lec" placeholder="Lec" class="form-control">
+							            </div>
+							            <div class="col-sm-8">
+							              Day:<input type="text" placeholder="Saturday"  name="Day"class="form-control" value="Saturday">
+							            </div><div class="col-sm-8">
+							              Type :<select type="text"  name='type'class="form-control" onchange="yesnoCheck(this);">
+							               	<option value="Lec">Lec</option>
+							                <option value="Lab">Lab</option>
+							                
+							              </select>
+
+							            </div>
+							            <div class="col-sm-8" id="newnew5" style="display: none;">
+							             Batch:<input type="text" placeholder="Batch"  name="batch"class="form-control">
+							            </div>
+							            
+							          </div>
+
+							          <!-- Text input-->
+							         
+							            
+							<!-- Command -->
+							          <div class="form-group">
+							            <div class="col-sm-6 col-sm-offset-1">
+							              <div class="modal-footer">
+		                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                    <button type="submit" name="submit" class="btn btn-primary">Add</button>
+		                  </div>
+							            </div>
+							          </div>
+							        </fieldset>
+                                    
+                                </form>
+                            </div>
+
+
+
+
+
+
+		                                    </center>
+
+		                   
+		                    
+		                    
+		                  </div>
+		                  
+		                </div>
+		              </div>
+		            </div>
+
+
+
+
+
+		            
+		        </div>
+				</div>
+				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				</div>
+			
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+
+
+
+{% endblock %}
